@@ -1,0 +1,154 @@
+ActiveRecord::Schema.define(:version => 0) do
+
+  create_table "projects", :force => true do |t|
+    t.string   "name",                       :default => "",   :null => false
+    t.text     "description", :limit => 255
+    t.string   "homepage",                   :default => ""
+    t.boolean  "is_public",                  :default => true, :null => false
+    t.integer  "parent_id"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.string   "identifier"
+    t.integer  "status",                     :default => 1,    :null => false
+    t.integer  "lft"
+    t.integer  "rgt"
+  end
+
+  add_index "projects", ["lft"], :name => "index_projects_on_lft"
+  add_index "projects", ["rgt"], :name => "index_projects_on_rgt"
+
+
+  create_table "users", :force => true do |t|
+    t.string   "login",                           :default => "",    :null => false
+    t.string   "hashed_password",   :limit => 40, :default => "",    :null => false
+    t.string   "firstname",         :limit => 30, :default => "",    :null => false
+    t.string   "lastname",          :limit => 30, :default => "",    :null => false
+    t.string   "mail",              :limit => 60, :default => "",    :null => false
+    t.boolean  "admin",                           :default => false, :null => false
+    t.integer  "status",                          :default => 1,     :null => false
+    t.datetime "last_login_on"
+    t.string   "language",          :limit => 5,  :default => ""
+    t.integer  "auth_source_id"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.string   "type"
+    t.string   "identity_url"
+    t.string   "mail_notification",               :default => "",    :null => false
+    t.string   "salt",              :limit => 64
+  end
+
+  add_index "users", ["auth_source_id"], :name => "index_users_on_auth_source_id"
+  add_index "users", ["id", "type"], :name => "index_users_on_id_and_type"
+  add_index "users", ["type"], :name => "index_users_on_type"
+
+
+  create_table "enumerations", :force => true do |t|
+    t.string  "name",       :limit => 30, :default => "",    :null => false
+    t.integer "position",                 :default => 1
+    t.boolean "is_default",               :default => false, :null => false
+    t.string  "type"
+    t.boolean "active",                   :default => true,  :null => false
+    t.integer "project_id"
+    t.integer "parent_id"
+  end
+
+  add_index "enumerations", ["id", "type"], :name => "index_enumerations_on_id_and_type"
+  add_index "enumerations", ["project_id"], :name => "index_enumerations_on_project_id"
+
+
+  create_table "issue_categories", :force => true do |t|
+    t.integer "project_id",                   :default => 0,  :null => false
+    t.string  "name",           :limit => 30, :default => "", :null => false
+    t.integer "assigned_to_id"
+  end
+
+
+  add_index "issue_categories", ["assigned_to_id"], :name => "index_issue_categories_on_assigned_to_id"
+  add_index "issue_categories", ["project_id"], :name => "issue_categories_project_id"
+
+  create_table "issue_relations", :force => true do |t|
+    t.integer "issue_from_id",                 :null => false
+    t.integer "issue_to_id",                   :null => false
+    t.string  "relation_type", :default => "", :null => false
+    t.integer "delay"
+  end
+
+  add_index "issue_relations", ["issue_from_id", "issue_to_id"], :name => "index_issue_relations_on_issue_from_id_and_issue_to_id", :unique => true
+  add_index "issue_relations", ["issue_from_id"], :name => "index_issue_relations_on_issue_from_id"
+  add_index "issue_relations", ["issue_to_id"], :name => "index_issue_relations_on_issue_to_id"
+
+  create_table "issue_statuses", :force => true do |t|
+    t.string  "name",               :limit => 30, :default => "",    :null => false
+    t.boolean "is_closed",                        :default => false, :null => false
+    t.boolean "is_default",                       :default => false, :null => false
+    t.integer "position",                         :default => 1
+    t.integer "default_done_ratio"
+  end
+
+  add_index "issue_statuses", ["is_closed"], :name => "index_issue_statuses_on_is_closed"
+  add_index "issue_statuses", ["is_default"], :name => "index_issue_statuses_on_is_default"
+  add_index "issue_statuses", ["position"], :name => "index_issue_statuses_on_position"
+
+
+  create_table "trackers", :force => true do |t|
+    t.string  "name",          :limit => 30, :default => "",    :null => false
+    t.boolean "is_in_chlog",                 :default => false, :null => false
+    t.integer "position",                    :default => 1
+    t.boolean "is_in_roadmap",               :default => true,  :null => false
+  end
+
+  create_table "settings", :force => true do |t|
+    t.string   "name",       :default => "", :null => false
+    t.text     "value"
+    t.datetime "updated_on"
+  end
+
+  add_index "settings", ["name"], :name => "index_settings_on_name"
+
+
+  create_table "issues", :force => true do |t|
+    t.integer  "tracker_id",       :default => 0,     :null => false
+    t.integer  "project_id",       :default => 0,     :null => false
+    t.string   "subject",          :default => "",    :null => false
+    t.text     "description"
+    t.date     "due_date"
+    t.integer  "category_id"
+    t.integer  "status_id",        :default => 0,     :null => false
+    t.integer  "assigned_to_id"
+    t.integer  "priority_id",      :default => 0,     :null => false
+    t.integer  "fixed_version_id"
+    t.integer  "author_id",        :default => 0,     :null => false
+    t.integer  "lock_version",     :default => 0,     :null => false
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.date     "start_date"
+    t.integer  "done_ratio",       :default => 0,     :null => false
+    t.float    "estimated_hours"
+    t.integer  "parent_id"
+    t.integer  "root_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.boolean  "is_private",       :default => false, :null => false
+  end
+
+  add_index "issues", ["assigned_to_id"], :name => "index_issues_on_assigned_to_id"
+  add_index "issues", ["author_id"], :name => "index_issues_on_author_id"
+  add_index "issues", ["category_id"], :name => "index_issues_on_category_id"
+  add_index "issues", ["created_on"], :name => "index_issues_on_created_on"
+  add_index "issues", ["fixed_version_id"], :name => "index_issues_on_fixed_version_id"
+  add_index "issues", ["priority_id"], :name => "index_issues_on_priority_id"
+  add_index "issues", ["project_id"], :name => "issues_project_id"
+  add_index "issues", ["root_id", "lft", "rgt"], :name => "index_issues_on_root_id_and_lft_and_rgt"
+  add_index "issues", ["status_id"], :name => "index_issues_on_status_id"
+  add_index "issues", ["tracker_id"], :name => "index_issues_on_tracker_id"
+
+  create_table :issue_status_transition_rules do |t|
+    t.string :name
+    t.integer :tracker
+    t.integer :current_status
+    t.integer :next_status
+    t.string :condition
+  end
+
+
+end

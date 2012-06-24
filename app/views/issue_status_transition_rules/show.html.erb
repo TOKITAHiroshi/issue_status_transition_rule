@@ -1,0 +1,31 @@
+<div class="contextual">
+<%= link_to l(:label_new_issue_status_transition_rule),
+	{:controller=>'issue_status_transition_rules' , :action=>'new'},
+	:class => 'icon icon-add' %>
+</div>
+
+<h2><%=l(:label_issue_status_transition_rules)%></h2>
+
+<table class="list">
+  <thead><tr>
+  <th><%=l(:field_name)%></th>
+  <th><%=l(:label_tracker)%></th>
+  <th><%=l(:label_issue_status)%></th>
+  <th><%=l(:label_issue_status_new)%></th>
+  <th align="left"><%=l(:label_rule)%></th>
+  <th></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr class="<%= cycle("odd", "even") %>">
+    <td> <%= link_to @issue_status_transition_rule.name, edit_issue_status_transition_rule_path(@issue_status_transition_rule) %> </td>
+    <td align="center"> <%= @trackers.find {|t| t.id==@issue_status_transition_rule.tracker }.name %> </td>
+    <td align="center"> <%= @issue_statuses.find {|s| s.id==@issue_status_transition_rule.current_status }.name%> </td>
+    <td align="center"> <%= @issue_statuses.find {|s| s.id==@issue_status_transition_rule.next_status }.name%> </td>
+    <td align="left" width="35%" style="word-wrap: break-word"> <pre> <%= @issue_status_transition_rule.condition %> </pre></td>
+    <td align=center class="buttons"><%= link_to l(:button_delete), issue_status_transition_rule_path(@issue_status_transition_rule), :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %></td>
+
+  </tbody>
+</table>
+

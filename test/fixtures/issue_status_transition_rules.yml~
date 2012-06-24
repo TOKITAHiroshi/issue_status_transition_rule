@@ -1,0 +1,7 @@
+rule1:
+  id: 1
+  name: test
+  tracker: 1
+  current_status: 1
+  next_status: 1
+  condition: "not_changed :subject"

@@ -1,0 +1,50 @@
+not_changed_fail:
+  id: 1
+  tracker_id: 1
+  project_id: 1
+  subject: "not_changed"
+  description: ""
+  due_date: nil
+  category_id: nil
+  status_id: 1
+  assigned_to_id: nil
+  priority_id : 4
+  fixed_version_id: nil
+  author_id: 1
+  lock_version: 15
+  created_on: "2012-06-16 10:33:04"
+  updated_on: "2012-06-17 16:55:08"
+  start_date: "2012-06-16"
+  done_ratio: 0
+  estimated_hours: nil
+  parent_id: nil
+  root_id: 3
+  lft: 1
+  rgt: 2
+  is_private: false
+
+not_changed_fail:
+  id: 2
+  tracker_id: 1
+  project_id: 1
+  subject: "not_changed_fail"
+  description: ""
+  due_date: nil
+  category_id: nil
+  status_id: 1
+  assigned_to_id: nil
+  priority_id : 4
+  fixed_version_id: nil
+  author_id: 1
+  lock_version: 15
+  created_on: "2012-06-16 10:33:04"
+  updated_on: "2012-06-17 16:55:08"
+  start_date: "2012-06-16"
+  done_ratio: 0
+  estimated_hours: nil
+  parent_id: nil
+  root_id: 3
+  lft: 1
+  rgt: 2
+  is_private: false
+

@@ -1,0 +1,6 @@
+# English strings go here for Rails i18n
+en:
+  label_rule: "Rule"
+  label_new_transition_rule: "New rule"
+  label_transition_rules: "Issue status transition rules"
+  label_rule_convention: "Rule writing conventions"
